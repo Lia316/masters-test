@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE3E7A9B2581E5CB006A6568 /* step-3.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3E7A9A2581E5CB006A6568 /* step-3.swift */; };
 		AED95A1A258075EC001EE3C6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED95A19258075EC001EE3C6 /* main.swift */; };
 		AED95A2225807710001EE3C6 /* step-1.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED95A2125807710001EE3C6 /* step-1.swift */; };
 		AED95A2B258095EC001EE3C6 /* step-2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED95A2A258095EC001EE3C6 /* step-2.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AE3E7A9A2581E5CB006A6568 /* step-3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "step-3.swift"; sourceTree = "<group>"; };
 		AED95A16258075EC001EE3C6 /* Rubik's Cube */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Rubik's Cube"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AED95A19258075EC001EE3C6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		AED95A2125807710001EE3C6 /* step-1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "step-1.swift"; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				AED95A19258075EC001EE3C6 /* main.swift */,
 				AED95A2125807710001EE3C6 /* step-1.swift */,
 				AED95A2A258095EC001EE3C6 /* step-2.swift */,
+				AE3E7A9A2581E5CB006A6568 /* step-3.swift */,
 			);
 			path = "Rubik's Cube";
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 				AED95A1A258075EC001EE3C6 /* main.swift in Sources */,
 				AED95A2B258095EC001EE3C6 /* step-2.swift in Sources */,
 				AED95A2225807710001EE3C6 /* step-1.swift in Sources */,
+				AE3E7A9B2581E5CB006A6568 /* step-3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
