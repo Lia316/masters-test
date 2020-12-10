@@ -19,7 +19,7 @@ struct RubiksCube {
 }
 
 struct CubeInfo {
-    let color: [[String]]
+    let position: [[String]]
     let RC: Bool // row: true, column: false
     let num: Int
     let reverse: Bool
@@ -33,20 +33,43 @@ class Rubiks {
         self.cube = cube
     }
     
+    func readInfo(_ cubeInfo: CubeInfo) -> [String]{
+        var arr: [String]
+        if cubeInfo.RC{
+            arr = cubeInfo.position[cubeInfo.num]
+        } else {
+            arr = [cubeInfo.position[0][cubeInfo.num]]
+            arr.append(cubeInfo.position[1][cubeInfo.num])
+            arr.append(cubeInfo.position[2][cubeInfo.num])
+        }
+        if cubeInfo.reverse { arr = arr.reversed() }
+        return arr
+    }
+    
+    func mergePush(_ cube1: CubeInfo, _ cube2: CubeInfo, _ cube3: CubeInfo, _ cube4: CubeInfo, counterClockwise: Bool) -> [String] {
+        var mergeArr = readInfo(cube1) + readInfo(cube2) + readInfo(cube3) + readInfo(cube4)
+        
+        if counterClockwise { mergeArr = mergeArr.reversed()}
+        mergeArr.append(mergeArr[0])
+        mergeArr.remove(at: 0)
+        if counterClockwise { mergeArr = mergeArr.reversed()}
+        
+        return mergeArr
+    }
+    
     func turnCube(notation: String) {
-        let temp = CubeInfo.init(color: [[""]], RC: true, num: 0, reverse: true)
+        let temp = CubeInfo.init(position: [[""]], RC: true, num: 0, reverse: true)
         var list = (temp, temp, temp, temp)
-        var clockwise = true
+        var direction = true
         
         switch notation {
         case "F", "F'":
-            var R = CubeInfo.init(color: cube.R, RC: false, num: 0, reverse: false)
-            var D = CubeInfo.init(color: cube.D, RC: true, num: 0, reverse: true)
-            var L = CubeInfo.init(color: cube.L, RC: false, num: 2, reverse: true)
-            var U = CubeInfo.init(color: cube.U, RC: true, num: 2, reverse: false)
+            let R = CubeInfo.init(position: cube.R, RC: false, num: 0, reverse: false)
+            let D = CubeInfo.init(position: cube.D, RC: true, num: 0, reverse: true)
+            let L = CubeInfo.init(position: cube.L, RC: false, num: 2, reverse: true)
+            let U = CubeInfo.init(position: cube.U, RC: true, num: 2, reverse: false)
             list = (R, D, L, U)
-            R = D; D = R; L = U; U = L
-            clockwise = notation == "F"
+            direction = notation == "F'"
         case "R":
             <#code#>
         case "U":
@@ -60,9 +83,8 @@ class Rubiks {
         default:
             <#code#>
         }
-        // mergePush(R,D,L,U, clockwise)
+        let resultArr = mergePush(list.0, list.1, list.2, list.3, counterClockwise: direction)
         // pushCube(R,D,L,U, arrMerge)
-        
     }
     
     
