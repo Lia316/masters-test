@@ -21,27 +21,33 @@ import Foundation
 
 // STEP 2: 평면 큐브 구현하기
 
-let cube1 = [["R", "R", "W"], ["G", "C", "W"], ["G", "B", "B"]]
-let flatCube1 = flatCube(cube: cube1)
+//let cube1 = [["R", "R", "W"], ["G", "C", "W"], ["G", "B", "B"]]
+//let flatCube1 = flatCube(cube: cube1)
+//
+//flatCube1.printCube()
+//var check = true
+//
+//// 평면큐브 돌리기 구현
+//repeat {
+//    print("\nCUBE > ", terminator: "")
+//
+//    let userInput = readLine()!
+//    let input = multiNotation(userInput)
+//
+//    for index in 0..<input.count {
+//        if input[index] == "Q" {
+//            check = false
+//            break
+//        }
+//        print("\n",input[index])
+//        flatCube1.push(notation: input[index])
+//        flatCube1.printCube()
+//    }
+//} while check
+//print("Bye~~")
 
-flatCube1.printCube()
-var check = true
+// ***********************************************************
 
-// 평면큐브 돌리기 구현
-repeat {
-    print("\nCUBE > ", terminator: "")
-    
-    let userInput = readLine()!
-    let input = multiNotation(userInput)
-    
-    for index in 0..<input.count {
-        if input[index] == "Q" {
-            check = false
-            break
-        }
-        print("\n",input[index])
-        flatCube1.push(notation: input[index])
-        flatCube1.printCube()
-    }
-} while check
-print("Bye~~")
+// STEP 3: 루빅스 큐브 구현하기
+
+
