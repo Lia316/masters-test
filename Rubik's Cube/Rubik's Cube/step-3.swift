@@ -18,12 +18,53 @@ struct RubiksCube {
     var D: [[String]] // Down
 }
 
+struct CubeInfo {
+    let color: [[String]]
+    let RC: Bool // row: true, column: false
+    let num: Int
+    let reverse: Bool
+}
+
+
 class Rubiks {
     var cube: RubiksCube
     
     init(cube: RubiksCube) {
         self.cube = cube
     }
+    
+    func turnCube(notation: String) {
+        let temp = CubeInfo.init(color: [[""]], RC: true, num: 0, reverse: true)
+        var list = (temp, temp, temp, temp)
+        var clockwise = true
+        
+        switch notation {
+        case "F", "F'":
+            var R = CubeInfo.init(color: cube.R, RC: false, num: 0, reverse: false)
+            var D = CubeInfo.init(color: cube.D, RC: true, num: 0, reverse: true)
+            var L = CubeInfo.init(color: cube.L, RC: false, num: 2, reverse: true)
+            var U = CubeInfo.init(color: cube.U, RC: true, num: 2, reverse: false)
+            list = (R, D, L, U)
+            R = D; D = R; L = U; U = L
+            clockwise = notation == "F"
+        case "R":
+            <#code#>
+        case "U":
+            <#code#>
+        case "B":
+            <#code#>
+        case "L":
+            <#code#>
+        case "D":
+            <#code#>
+        default:
+            <#code#>
+        }
+        // mergePush(R,D,L,U, clockwise)
+        // pushCube(R,D,L,U, arrMerge)
+        
+    }
+    
     
     func printLine(_ arr: [String], _ type: Int) {
         var blank: String
