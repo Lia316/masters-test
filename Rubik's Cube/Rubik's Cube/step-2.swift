@@ -53,9 +53,9 @@ class flatCube {
             vertical(column: 0, direction: false)
         case "L'": // 가장 왼쪽 줄을 위로 한 칸 밀기
             vertical(column: 0, direction: true)
-        case "B": // 가장 아랫줄을 오른쪽으로 한 칸 밀기 (B의 경우도 U와 방향이 반대임을 주의한다.)
+        case "D": // 가장 아랫줄을 오른쪽으로 한 칸 밀기 (D의 경우도 U와 방향이 반대임을 주의한다.)
             cube[2] = horizontal(row: cube[2], direction: false)
-        case "B'": // 가장 아랫줄을 왼쪽으로 한 칸 밀기
+        case "D'": // 가장 아랫줄을 왼쪽으로 한 칸 밀기
             cube[2] = horizontal(row: cube[2], direction: true)
         default:
             print("error")
