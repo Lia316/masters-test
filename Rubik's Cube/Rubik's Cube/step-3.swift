@@ -73,58 +73,26 @@ class Rubiks {
             arr.remove(at: 0)
             if cubeList[index].reverse { subArr = subArr.reversed()}
             
+            func alterCubePlane(_ position: [[String]], _ RC: Bool, _ num: Int) -> [[String]]{
+                var cube = position
+                if RC {
+                    cube[num] = subArr
+                } else {
+                    cube[0][num] = subArr[0]
+                    cube[1][num] = subArr[1]
+                    cube[2][num] = subArr[2]
+                }
+                return cube
+            }
             
             switch cubeList[index].name {
-            case "F":
-                if cubeList[index].RC {
-                    cube.F[cubeList[index].num] = subArr
-                } else {
-                    cube.F[0][cubeList[index].num] = subArr[0]
-                    cube.F[1][cubeList[index].num] = subArr[1]
-                    cube.F[2][cubeList[index].num] = subArr[2]
-                }
-            case "R":
-                if cubeList[index].RC {
-                    cube.R[cubeList[index].num] = subArr
-                } else {
-                    cube.R[0][cubeList[index].num] = subArr[0]
-                    cube.R[1][cubeList[index].num] = subArr[1]
-                    cube.R[2][cubeList[index].num] = subArr[2]
-                }
-            case "U":
-                if cubeList[index].RC {
-                    cube.U[cubeList[index].num] = subArr
-                } else {
-                    cube.U[0][cubeList[index].num] = subArr[0]
-                    cube.U[1][cubeList[index].num] = subArr[1]
-                    cube.U[2][cubeList[index].num] = subArr[2]
-                }
-            case "B":
-                if cubeList[index].RC {
-                    cube.B[cubeList[index].num] = subArr
-                } else {
-                    cube.B[0][cubeList[index].num] = subArr[0]
-                    cube.B[1][cubeList[index].num] = subArr[1]
-                    cube.B[2][cubeList[index].num] = subArr[2]
-                }
-            case "L":
-                if cubeList[index].RC {
-                    cube.L[cubeList[index].num] = subArr
-                } else {
-                    cube.L[0][cubeList[index].num] = subArr[0]
-                    cube.L[1][cubeList[index].num] = subArr[1]
-                    cube.L[2][cubeList[index].num] = subArr[2]
-                }
-            case "D":
-                if cubeList[index].RC {
-                    cube.D[cubeList[index].num] = subArr
-                } else {
-                    cube.D[0][cubeList[index].num] = subArr[0]
-                    cube.D[1][cubeList[index].num] = subArr[1]
-                    cube.D[2][cubeList[index].num] = subArr[2]
-                }
-            default:
-                break
+            case "F": cube.F = alterCubePlane(cube.F, cubeList[index].RC, cubeList[index].num)
+            case "R": cube.R = alterCubePlane(cube.R, cubeList[index].RC, cubeList[index].num)
+            case "U": cube.U = alterCubePlane(cube.U, cubeList[index].RC, cubeList[index].num)
+            case "B": cube.B = alterCubePlane(cube.B, cubeList[index].RC, cubeList[index].num)
+            case "L": cube.L = alterCubePlane(cube.L, cubeList[index].RC, cubeList[index].num)
+            case "D": cube.D = alterCubePlane(cube.D, cubeList[index].RC, cubeList[index].num)
+            default : break
             }
         }
     }
