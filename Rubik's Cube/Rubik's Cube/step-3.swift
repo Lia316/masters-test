@@ -20,14 +20,16 @@ struct RubiksCube {
 
 struct CubeInfo {
     let position: [[String]]
+    let name: String
     let RC: Bool // row: true, column: false
     let num: Int
     let reverse: Bool
 }
-
+let temp = CubeInfo.init(position: [[""]], name: "", RC: true, num: 0, reverse: true)
 
 class Rubiks {
     var cube: RubiksCube
+    var F: CubeInfo = temp, R: CubeInfo = temp, U: CubeInfo = temp, B: CubeInfo = temp, L: CubeInfo = temp, D: CubeInfo = temp
     
     init(cube: RubiksCube) {
         self.cube = cube
@@ -46,45 +48,140 @@ class Rubiks {
         return arr
     }
     
-    func mergePush(_ cube1: CubeInfo, _ cube2: CubeInfo, _ cube3: CubeInfo, _ cube4: CubeInfo, counterClockwise: Bool) -> [String] {
+    func mergePush(_ cube1: CubeInfo, _ cube2: CubeInfo, _ cube3: CubeInfo, _ cube4: CubeInfo, clockwise: Bool) -> [String] {
         var mergeArr = readInfo(cube1) + readInfo(cube2) + readInfo(cube3) + readInfo(cube4)
         
-        if counterClockwise { mergeArr = mergeArr.reversed()}
+        if clockwise { mergeArr = mergeArr.reversed()}
         mergeArr.append(mergeArr[0])
+        mergeArr.append(mergeArr[1])
+        mergeArr.append(mergeArr[2])
         mergeArr.remove(at: 0)
-        if counterClockwise { mergeArr = mergeArr.reversed()}
+        mergeArr.remove(at: 0)
+        mergeArr.remove(at: 0)
+        if clockwise { mergeArr = mergeArr.reversed()}
         
         return mergeArr
     }
     
+    func pushCube(_ cubeList: [CubeInfo], pushedArr: [String]) {
+        var arr = pushedArr
+        
+        for index in 0..<4 {
+            var subArr = Array(arr[0...2])
+            arr.remove(at: 0)
+            arr.remove(at: 0)
+            arr.remove(at: 0)
+            if cubeList[index].reverse { subArr = subArr.reversed()}
+            
+            
+            switch cubeList[index].name {
+            case "F":
+                if cubeList[index].RC {
+                    cube.F[cubeList[index].num] = subArr
+                } else {
+                    cube.F[0][cubeList[index].num] = subArr[0]
+                    cube.F[1][cubeList[index].num] = subArr[1]
+                    cube.F[2][cubeList[index].num] = subArr[2]
+                }
+            case "R":
+                if cubeList[index].RC {
+                    cube.R[cubeList[index].num] = subArr
+                } else {
+                    cube.R[0][cubeList[index].num] = subArr[0]
+                    cube.R[1][cubeList[index].num] = subArr[1]
+                    cube.R[2][cubeList[index].num] = subArr[2]
+                }
+            case "U":
+                if cubeList[index].RC {
+                    cube.U[cubeList[index].num] = subArr
+                } else {
+                    cube.U[0][cubeList[index].num] = subArr[0]
+                    cube.U[1][cubeList[index].num] = subArr[1]
+                    cube.U[2][cubeList[index].num] = subArr[2]
+                }
+            case "B":
+                if cubeList[index].RC {
+                    cube.B[cubeList[index].num] = subArr
+                } else {
+                    cube.B[0][cubeList[index].num] = subArr[0]
+                    cube.B[1][cubeList[index].num] = subArr[1]
+                    cube.B[2][cubeList[index].num] = subArr[2]
+                }
+            case "L":
+                if cubeList[index].RC {
+                    cube.L[cubeList[index].num] = subArr
+                } else {
+                    cube.L[0][cubeList[index].num] = subArr[0]
+                    cube.L[1][cubeList[index].num] = subArr[1]
+                    cube.L[2][cubeList[index].num] = subArr[2]
+                }
+            case "D":
+                if cubeList[index].RC {
+                    cube.D[cubeList[index].num] = subArr
+                } else {
+                    cube.D[0][cubeList[index].num] = subArr[0]
+                    cube.D[1][cubeList[index].num] = subArr[1]
+                    cube.D[2][cubeList[index].num] = subArr[2]
+                }
+            default:
+                break
+            }
+        }
+    }
+    
     func turnCube(notation: String) {
-        let temp = CubeInfo.init(position: [[""]], RC: true, num: 0, reverse: true)
-        var list = (temp, temp, temp, temp)
-        var direction = true
+        var list: [CubeInfo]
+        var direction: Bool
         
         switch notation {
         case "F", "F'":
-            let R = CubeInfo.init(position: cube.R, RC: false, num: 0, reverse: false)
-            let D = CubeInfo.init(position: cube.D, RC: true, num: 0, reverse: true)
-            let L = CubeInfo.init(position: cube.L, RC: false, num: 2, reverse: true)
-            let U = CubeInfo.init(position: cube.U, RC: true, num: 2, reverse: false)
-            list = (R, D, L, U)
-            direction = notation == "F'"
-        case "R":
-            <#code#>
-        case "U":
-            <#code#>
-        case "B":
-            <#code#>
-        case "L":
-            <#code#>
-        case "D":
-            <#code#>
+            R = CubeInfo.init(position: cube.R, name: "R", RC: false, num: 0, reverse: false)
+            D = CubeInfo.init(position: cube.D, name: "D",RC: true, num: 0, reverse: true)
+            L = CubeInfo.init(position: cube.L, name: "L",RC: false, num: 2, reverse: true)
+            U = CubeInfo.init(position: cube.U, name: "U",RC: true, num: 2, reverse: false)
+            list = [R, D, L, U]
+            direction = notation == "F"
+        case "R", "R'":
+            D = CubeInfo.init(position: cube.D, name: "D", RC: false, num: 2, reverse: true)
+            F = CubeInfo.init(position: cube.F, name: "F",RC: false, num: 2, reverse: true)
+            U = CubeInfo.init(position: cube.U, name: "U",RC: false, num: 2, reverse: true)
+            B = CubeInfo.init(position: cube.B, name: "B",RC: false, num: 0, reverse: false)
+            list = [D, F, U, B]
+            direction = notation == "R"
+        case "U", "U'":
+            B = CubeInfo.init(position: cube.B, name: "B", RC: true, num: 0, reverse: true)
+            R = CubeInfo.init(position: cube.R, name: "R",RC: true, num: 0, reverse: true)
+            F = CubeInfo.init(position: cube.F, name: "F",RC: true, num: 0, reverse: true)
+            L = CubeInfo.init(position: cube.L, name: "L",RC: true, num: 0, reverse: true)
+            list = [B, R, F, L]
+            direction = notation == "U"
+        case "B", "B'":
+            U = CubeInfo.init(position: cube.U, name: "U", RC: true, num: 0, reverse: true)
+            L = CubeInfo.init(position: cube.L, name: "L",RC: false, num: 0, reverse: false)
+            D = CubeInfo.init(position: cube.D, name: "D",RC: true, num: 2, reverse: false)
+            R = CubeInfo.init(position: cube.R, name: "R",RC: false, num: 2, reverse: true)
+            list = [U, L, D, R]
+            direction = notation == "B"
+        case "L", "L'":
+            U = CubeInfo.init(position: cube.U, name: "U", RC: false, num: 0, reverse: false)
+            F = CubeInfo.init(position: cube.F, name: "F",RC: false, num: 0, reverse: false)
+            D = CubeInfo.init(position: cube.D, name: "D",RC: false, num: 0, reverse: false)
+            B = CubeInfo.init(position: cube.B, name: "B",RC: false, num: 2, reverse: true)
+            list = [U, F, D, B]
+            direction = notation == "L"
+        case "D", "D'":
+            L = CubeInfo.init(position: cube.L, name: "L", RC: true, num: 2, reverse: false)
+            F = CubeInfo.init(position: cube.F, name: "F",RC: true, num: 2, reverse: false)
+            R = CubeInfo.init(position: cube.R, name: "R",RC: true, num: 2, reverse: false)
+            B = CubeInfo.init(position: cube.B, name: "B",RC: true, num: 2, reverse: false)
+            list = [L, F, R, B]
+            direction = notation == "D"
         default:
-            <#code#>
+            list = []
+            direction = false
         }
-        let resultArr = mergePush(list.0, list.1, list.2, list.3, counterClockwise: direction)
-        // pushCube(R,D,L,U, arrMerge)
+        let resultArr = mergePush(list[0], list[1], list[2], list[3], clockwise: direction)
+        pushCube(list, pushedArr: resultArr)
     }
     
     
@@ -101,18 +198,17 @@ class Rubiks {
     }
 
     func printRubiksCube() {
-        printLine(cube.U[0], -16)
-        printLine(cube.U[1], -16)
-        printLine(cube.U[2], -16)
+        printLine(cube.U[0], -11)
+        printLine(cube.U[1], -11)
+        printLine(cube.U[2], -11)
         print()
         printLine(cube.L[0], 3); printLine(cube.F[0], 3); printLine(cube.R[0], 3); printLine(cube.B[0], 0);
         printLine(cube.L[1], 3); printLine(cube.F[1], 3); printLine(cube.R[1], 3); printLine(cube.B[1], 0);
         printLine(cube.L[2], 3); printLine(cube.F[2], 3); printLine(cube.R[2], 3); printLine(cube.B[2], 0);
         print()
-        printLine(cube.D[0], -16)
-        printLine(cube.D[1], -16)
-        printLine(cube.D[2], -16)
+        printLine(cube.D[0], -11)
+        printLine(cube.D[1], -11)
+        printLine(cube.D[2], -11)
         print()
     }
-    
 }

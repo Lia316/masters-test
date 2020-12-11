@@ -60,3 +60,11 @@ let down = [["R", "R", "R"], ["R", "R", "R"], ["R", "R", "R"]]
 let cubeForRubiks = RubiksCube.init(F: front, B: back, L: left, R: right, U: up, D: down)
 var testRubiks = Rubiks(cube: cubeForRubiks)
 testRubiks.printRubiksCube()
+
+for _ in 1...5 {
+print("\nnotation: ", terminator: "")
+let input = readLine()!
+testRubiks.turnCube(notation: input)
+testRubiks.printRubiksCube()
+
+}
