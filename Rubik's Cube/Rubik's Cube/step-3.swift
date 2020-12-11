@@ -25,11 +25,13 @@ struct CubeInfo {
     let num: Int
     let reverse: Bool
 }
-let temp = CubeInfo.init(position: [[""]], name: "", RC: true, num: 0, reverse: true)
+
+let tempInfo = CubeInfo.init(position: [[""]], name: "", RC: true, num: 0, reverse: true)
+
 
 class Rubiks {
     var cube: RubiksCube
-    var F: CubeInfo = temp, R: CubeInfo = temp, U: CubeInfo = temp, B: CubeInfo = temp, L: CubeInfo = temp, D: CubeInfo = temp
+    var F = tempInfo, R = tempInfo, U = tempInfo, B = tempInfo, L = tempInfo, D = tempInfo
     
     init(cube: RubiksCube) {
         self.cube = cube
@@ -96,7 +98,7 @@ class Rubiks {
         }
     }
     
-    func rotateCenter(center: [[String]], clockwise: Bool) -> [[String]] {
+    func rotateCenter(_ name: String, center: [[String]], clockwise: Bool) {
         var mergedArr = center[0]
         mergedArr.append(center[1][2])
         mergedArr.append(center[2][2])
@@ -106,6 +108,8 @@ class Rubiks {
         
         if clockwise {mergedArr = mergedArr.reversed()}
         mergedArr.append(mergedArr[0])
+        mergedArr.append(mergedArr[1])
+        mergedArr.remove(at: 0)
         mergedArr.remove(at: 0)
         if clockwise {mergedArr = mergedArr.reversed()}
         
@@ -113,12 +117,21 @@ class Rubiks {
         rotatedCenter.append([mergedArr[7], center[1][1], mergedArr[3]])
         rotatedCenter.append([mergedArr[6], mergedArr[5], mergedArr[4]])
         
-        return rotatedCenter
+        switch name {
+        case "F", "F'": cube.F = rotatedCenter
+        case "R", "R'": cube.R = rotatedCenter
+        case "U", "U'": cube.U = rotatedCenter
+        case "B", "B'": cube.B = rotatedCenter
+        case "L", "L'": cube.L = rotatedCenter
+        case "D", "D'": cube.D = rotatedCenter
+        default : break
+        }
     }
     
     func turnCube(notation: String) {
         var list: [CubeInfo]
         var direction: Bool
+        var cubeCenter: [[String]]
         
         switch notation {
         case "F", "F'":
@@ -128,7 +141,7 @@ class Rubiks {
             U = CubeInfo.init(position: cube.U, name: "U",RC: true, num: 2, reverse: false)
             list = [R, D, L, U]
             direction = notation == "F"
-            cube.F = rotateCenter(center: cube.F, clockwise: direction)
+            cubeCenter = cube.F
         case "R", "R'":
             D = CubeInfo.init(position: cube.D, name: "D", RC: false, num: 2, reverse: true)
             F = CubeInfo.init(position: cube.F, name: "F",RC: false, num: 2, reverse: true)
@@ -136,7 +149,7 @@ class Rubiks {
             B = CubeInfo.init(position: cube.B, name: "B",RC: false, num: 0, reverse: false)
             list = [D, F, U, B]
             direction = notation == "R"
-            cube.R = rotateCenter(center: cube.R, clockwise: direction)
+            cubeCenter = cube.R
         case "U", "U'":
             B = CubeInfo.init(position: cube.B, name: "B", RC: true, num: 0, reverse: true)
             R = CubeInfo.init(position: cube.R, name: "R",RC: true, num: 0, reverse: true)
@@ -144,7 +157,7 @@ class Rubiks {
             L = CubeInfo.init(position: cube.L, name: "L",RC: true, num: 0, reverse: true)
             list = [B, R, F, L]
             direction = notation == "U"
-            cube.U = rotateCenter(center: cube.U, clockwise: direction)
+            cubeCenter = cube.U
         case "B", "B'":
             U = CubeInfo.init(position: cube.U, name: "U", RC: true, num: 0, reverse: true)
             L = CubeInfo.init(position: cube.L, name: "L",RC: false, num: 0, reverse: false)
@@ -152,7 +165,7 @@ class Rubiks {
             R = CubeInfo.init(position: cube.R, name: "R",RC: false, num: 2, reverse: true)
             list = [U, L, D, R]
             direction = notation == "B"
-            cube.B = rotateCenter(center: cube.B, clockwise: direction)
+            cubeCenter = cube.B
         case "L", "L'":
             U = CubeInfo.init(position: cube.U, name: "U", RC: false, num: 0, reverse: false)
             F = CubeInfo.init(position: cube.F, name: "F",RC: false, num: 0, reverse: false)
@@ -160,7 +173,7 @@ class Rubiks {
             B = CubeInfo.init(position: cube.B, name: "B",RC: false, num: 2, reverse: true)
             list = [U, F, D, B]
             direction = notation == "L"
-            cube.L = rotateCenter(center: cube.L, clockwise: direction)
+            cubeCenter = cube.L
         case "D", "D'":
             L = CubeInfo.init(position: cube.L, name: "L", RC: true, num: 2, reverse: false)
             F = CubeInfo.init(position: cube.F, name: "F",RC: true, num: 2, reverse: false)
@@ -168,12 +181,14 @@ class Rubiks {
             B = CubeInfo.init(position: cube.B, name: "B",RC: true, num: 2, reverse: false)
             list = [L, F, R, B]
             direction = notation == "D"
-            cube.D = rotateCenter(center: cube.D, clockwise: direction)
+            cubeCenter = cube.D
         default:
             list = []
             direction = false
+            cubeCenter = [[]]
         }
         let resultArr = mergePush(list[0], list[1], list[2], list[3], clockwise: direction)
+        rotateCenter(notation, center: cubeCenter, clockwise: direction)
         updateBorderCube(list, pushedArr: resultArr)
     }
     
