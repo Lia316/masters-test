@@ -63,7 +63,7 @@ class Rubiks {
         return mergeArr
     }
     
-    func pushCube(_ cubeList: [CubeInfo], pushedArr: [String]) {
+    func updateBorderCube(_ cubeList: [CubeInfo], pushedArr: [String]) {
         var arr = pushedArr
         
         for index in 0..<4 {
@@ -84,7 +84,6 @@ class Rubiks {
                 }
                 return cube
             }
-            
             switch cubeList[index].name {
             case "F": cube.F = alterCubePlane(cube.F, cubeList[index].RC, cubeList[index].num)
             case "R": cube.R = alterCubePlane(cube.R, cubeList[index].RC, cubeList[index].num)
@@ -149,7 +148,7 @@ class Rubiks {
             direction = false
         }
         let resultArr = mergePush(list[0], list[1], list[2], list[3], clockwise: direction)
-        pushCube(list, pushedArr: resultArr)
+        updateBorderCube(list, pushedArr: resultArr)
     }
     
     
