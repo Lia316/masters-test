@@ -35,10 +35,12 @@ let tempInfo = CubeInfo.init(position: [[""]], name: "", row: true, num: 0, reve
 
 class Rubiks {
     var cube: RubiksCube
+    let initialCube: RubiksCube
     var F: CubeInfo = tempInfo, R = tempInfo, U = tempInfo, B = tempInfo, L = tempInfo, D = tempInfo
     
     init(cube: RubiksCube) {
         self.cube = cube
+        self.initialCube = cube
     }
     
     // mergeAndPush 에 쓰일 메소드
@@ -62,12 +64,10 @@ class Rubiks {
         var mergedArr = readInfo(cube1) + readInfo(cube2) + readInfo(cube3) + readInfo(cube4)
         
         if clockwise { mergedArr = mergedArr.reversed()}
-        mergedArr.append(mergedArr[0])
-        mergedArr.append(mergedArr[1])
-        mergedArr.append(mergedArr[2])
-        mergedArr.remove(at: 0)
-        mergedArr.remove(at: 0)
-        mergedArr.remove(at: 0)
+        for _ in 1...3{
+            mergedArr.append(mergedArr[0])
+            mergedArr.remove(at: 0)
+        }
         if clockwise { mergedArr = mergedArr.reversed()}
         
         return mergedArr
@@ -182,6 +182,30 @@ class Rubiks {
         default:
             break
         }
+    }
+    
+    // 무작위 섞는 메소드
+    func mixRandom(){
+        let notation = [1: "F", 2: "F'", 3: "B", 4: "B'", 5: "L", 6: "L'", 7: "R", 8: "R'", 9: "U", 10: "U'", 11: "D", 12: "D'"]
+        var mixList = [String]()
+        
+        for index in 0...10 {
+            mixList.append(notation[Int.random(in: 1...12)]!)
+            turnCube(notation: mixList[index])
+        }
+        print("[mixed] ", mixList, "\n")
+        printRubiksCube()
+    }
+    
+    // 큐브 면을 다 맞췄는지 확인하는 함수
+    func didSolve() -> Bool {
+        if cube.F != initialCube.F { return false }
+        if cube.R != initialCube.R { return false }
+        if cube.U != initialCube.U { return false }
+        if cube.B != initialCube.B { return false }
+        if cube.L != initialCube.L { return false }
+        if cube.D != initialCube.D { return false }
+        return true
     }
     
     // printRubiksCube 를 위한 메소드 : row 와 앞뒤 공백 간격 -> 출력
