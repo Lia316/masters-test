@@ -7,22 +7,10 @@
 
 import Foundation
 
-// STEP 1: 단어 밀어내기
-
-//print("enter a word, an integer (-100 <= N < 100), L or R")
-//print("ex) apple 3 L \n\ninput: ", terminator:"")
-//
-//let input1 = readLine()!
-//var test1 = step1(input1)
-//test1.calString()
-//print(test1.pushString())
-
-// ***********************************************************
-
 // STEP 2: 평면 큐브 구현하기
 
 let cube1 = [["R", "R", "W"], ["G", "C", "W"], ["G", "B", "B"]]
-let flatCube1 = flatCube(cube: cube1)
+let flatCube1 = FlatCube(cube: cube1)
 
 flatCube1.printCube()
 var check = true

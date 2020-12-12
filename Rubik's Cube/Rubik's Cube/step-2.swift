@@ -9,7 +9,7 @@ import Foundation
 
 // STEP 2: 평면 큐브 구현하기
 
-class flatCube {
+class FlatCube {
     var cube: [[String]]
     
     init(cube: [[String]]) {
