@@ -62,10 +62,9 @@ var testRubiks = Rubiks(cube: cubeForRubiks)
 testRubiks.printRubiksCube()
 
 for _ in 1...5 {
-print("\nnotation: ", terminator: "")
-let input = readLine()!
+    print("\nnotation: ", terminator: "")
+    let input = readLine()!
     print()
-testRubiks.turnCube(notation: input)
-testRubiks.printRubiksCube()
-
+    testRubiks.turnCube(notation: input)
+    testRubiks.printRubiksCube()
 }
