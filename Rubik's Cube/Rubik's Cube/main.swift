@@ -50,21 +50,44 @@ import Foundation
 // ***********************************************************
 // STEP 3: 루빅스 큐브 구현하기
 
-let front = [["O", "O", "O"], ["O", "O", "O"], ["O", "O", "O"]]
-let back = [["Y", "Y", "Y"], ["Y", "Y", "Y"], ["Y", "Y", "Y"]]
-let left = [["W", "W", "W"], ["W", "W", "W"], ["W", "W", "W"]]
-let right = [["G", "G", "G"], ["G", "G", "G"], ["G", "G", "G"]]
-let up = [["B", "B", "B"], ["B", "B", "B"], ["B", "B", "B"]]
-let down = [["R", "R", "R"], ["R", "R", "R"], ["R", "R", "R"]]
+let orange = [["O", "O", "O"], ["O", "O", "O"], ["O", "O", "O"]]
+let yellow = [["Y", "Y", "Y"], ["Y", "Y", "Y"], ["Y", "Y", "Y"]]
+let white = [["W", "W", "W"], ["W", "W", "W"], ["W", "W", "W"]]
+let green = [["G", "G", "G"], ["G", "G", "G"], ["G", "G", "G"]]
+let blue = [["B", "B", "B"], ["B", "B", "B"], ["B", "B", "B"]]
+let red = [["R", "R", "R"], ["R", "R", "R"], ["R", "R", "R"]]
 
-let cubeForRubiks = RubiksCube.init(F: front, B: back, L: left, R: right, U: up, D: down)
+let cubeForRubiks = RubiksCube.init(F: orange, B: yellow, L: white, R: green, U: blue, D: red)
 var testRubiks = Rubiks(cube: cubeForRubiks)
-testRubiks.printRubiksCube()
+let validNotion = Set(["F", "F'", "B", "B'", "L", "L'", "R", "R'", "U", "U'", "D", "D'"])
+var check = true
+var count = 0
 
-for _ in 1...5 {
-    print("\nnotation: ", terminator: "")
-    let input = readLine()!
-    print()
-    testRubiks.turnCube(notation: input)
-    testRubiks.printRubiksCube()
-}
+print()
+testRubiks.printRubiksCube()
+repeat {
+    print("\nCUBE > ", terminator: "")
+
+    let userInput = readLine()!
+    let input = multiNotation(userInput)
+
+    for index in 0..<input.count {
+        if input[index] == "Q" {
+            check = false
+            break
+        }
+        if validNotion.contains(input[index]) {
+            count += 1
+            print("\n",input[index])
+        } else {
+            print("\ninvalid!")
+        }
+        testRubiks.turnCube(notation: input[index])
+        testRubiks.printRubiksCube()
+        
+    }
+} while check
+
+print("경과 시간: ")
+print("조작 개수: \(count)")
+print("이용해주셔서 감사합니다. 뚜뚜뚜.\n")
