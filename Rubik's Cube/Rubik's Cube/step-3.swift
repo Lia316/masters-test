@@ -18,6 +18,10 @@ struct RubiksCube {
     var D: [[String]] // Down
 }
 
+// 변두리 회전을 위한 정보
+// ex) Back 회전 시 : 변두리 [U,L,D,R] 회전
+//     이 중 U의 정보 [position: cube.U, name: "U", row: true, num: 0, reverse: false]
+//     = up의 정보는 cube.U, "U" 이고, 정방향 0행 을 가지고 있어
 struct CubeInfo {
     let position: [[String]]
     let name: String
