@@ -111,12 +111,7 @@ class Rubiks {
     // 회전 기호 면을 회전시키는 메소드 ex) notation: R -> R이 시계방향으로 회전하고 주변 border도 회전
     // : 회전 기호 & ' 여부 -> 움직이지 않는 가장 가운데 면을 제외한 면 배열로 병합 -> 2칸 회전 값 리턴
     func rotateCenter(center: [[String]], clockwise: Bool) -> [[String]] {
-        var mergedArr = center[0]
-        mergedArr.append(center[1][2])
-        mergedArr.append(center[2][2])
-        mergedArr.append(center[2][1])
-        mergedArr.append(center[2][0])
-        mergedArr.append(center[1][0])
+        var mergedArr = center[0] + [center[1][2], center[2][2], center[2][1], center[2][0], center[1][0]]
         
         if clockwise {mergedArr = mergedArr.reversed()}
         mergedArr.append(mergedArr[0])
@@ -217,4 +212,23 @@ class Rubiks {
         printLine(cube.D[2], -11)
         print()
     }
+}
+
+
+// 여러 입력을 처리하는 함수
+func multiNotation(_ input: String) -> [String] {
+    let arr = Array(input)
+    var result = [String]()
+    
+    if arr.count == 1 {return [input]}
+    
+    for index in 0..<arr.count {
+        if index < arr.count - 1 && arr[index + 1] == "'" {
+            result.append("\(arr[index])'")
+            continue
+        } else if arr[index] != "'" {
+            result.append("\(arr[index])")
+        }
+    }
+    return result
 }
