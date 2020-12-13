@@ -9,6 +9,7 @@ import Foundation
 
 // STEP 3: 루빅스 큐브 구현하기
 
+// MARK:- 루빅스 큐브 & 회전 행렬 정보 구조체
 struct RubiksCube {
     var F: [[String]] // Front
     var B: [[String]] // Back
@@ -29,20 +30,89 @@ struct CubeInfo {
     let num: Int
     let reverse: Bool
 }
-
 let tempInfo = CubeInfo.init(position: [[""]], name: "", row: true, num: 0, reverse: true)
 
-
+// MARK:- Rubik's Cube class
 class Rubiks {
     var cube: RubiksCube
     let initialCube: RubiksCube
     var F: CubeInfo = tempInfo, R = tempInfo, U = tempInfo, B = tempInfo, L = tempInfo, D = tempInfo
+    var count = 0
     
     init(cube: RubiksCube) {
         self.cube = cube
         self.initialCube = cube
     }
     
+    // MARK:- 큐브 게임 진행을 위한 메소드
+    func playRubiksCube() {
+        var check = true
+        let startTime = Date().timeIntervalSince1970
+
+        print()
+        printRubiksCube()
+        mixRandom()
+
+        repeat {
+            print("\nCUBE > ", terminator: "")
+            let input = multiNotation(readLine()!)
+            
+            for index in 0..<input.count {
+                if input[index] == "Q" {
+                    check = false
+                    break
+                }
+                countCommand(input: input[index]) ? print("\n",input[index]) : print("\ninvalid!")
+                turnCube(notation: input[index])
+                printRubiksCube()
+                if didSolve() {
+                    print("🥳 : 큐브 맞추기 성공!!\n     축하합니다!🎉\n")
+                    check = false
+                    break
+                }
+            }
+        } while check
+
+        print("경과 시간: \(timeCheck(startTime))")
+        print("조작 개수: \(count)")
+        print("이용해주셔서 감사합니다. 뚜뚜뚜.\n")
+    }
+    
+    func countCommand(input: String) -> Bool {
+        let validNotion = Set(["F", "F'", "B", "B'", "L", "L'", "R", "R'", "U", "U'", "D", "D'"])
+        if validNotion.contains(input) { count += 1 }
+        
+        return validNotion.contains(input)
+    }
+    
+    func timeCheck(_ startTime: TimeInterval) -> String {
+        let endTime = Date().timeIntervalSince1970
+        let duration = Date(timeIntervalSince1970: endTime - startTime)
+        let formateTime = DateFormatter()
+        formateTime.dateFormat = "mm:ss"
+
+        return formateTime.string(from: duration)
+    }
+    
+    // 여러 입력을 처리하는 함수
+    func multiNotation(_ input: String) -> [String] {
+        let arr = Array(input)
+        var result = [String]()
+        
+        if arr.count == 1 {return [input]}
+        
+        for index in 0..<arr.count {
+            if index < arr.count - 1 && arr[index + 1] == "'" {
+                result.append("\(arr[index])'")
+                continue
+            } else if arr[index] != "'" {
+                result.append("\(arr[index])")
+            }
+        }
+        return result
+    }
+    
+    // MARK:- 큐브 기능 구현 시작
     // mergeAndPush 에 쓰일 메소드
     // : 큐브의 위치/행렬/반대방향 여부 정보 -> 적절한 배열 값 리턴
     func readInfo(_ cubeInfo: CubeInfo) -> [String]{
@@ -239,20 +309,4 @@ class Rubiks {
 }
 
 
-// 여러 입력을 처리하는 함수
-func multiNotation(_ input: String) -> [String] {
-    let arr = Array(input)
-    var result = [String]()
-    
-    if arr.count == 1 {return [input]}
-    
-    for index in 0..<arr.count {
-        if index < arr.count - 1 && arr[index + 1] == "'" {
-            result.append("\(arr[index])'")
-            continue
-        } else if arr[index] != "'" {
-            result.append("\(arr[index])")
-        }
-    }
-    return result
-}
+
