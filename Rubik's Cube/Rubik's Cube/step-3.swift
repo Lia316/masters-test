@@ -78,6 +78,7 @@ class Rubiks {
         print("이용해주셔서 감사합니다. 뚜뚜뚜.\n")
     }
     
+    // 조작 개수 세는 메소드
     func countCommand(input: String) -> Bool {
         let validNotion = Set(["F", "F'", "B", "B'", "L", "L'", "R", "R'", "U", "U'", "D", "D'"])
         if validNotion.contains(input) { count += 1 }
@@ -85,6 +86,7 @@ class Rubiks {
         return validNotion.contains(input)
     }
     
+    // 경과 시간 재는 메소드
     func timeCheck(_ startTime: TimeInterval) -> String {
         let endTime = Date().timeIntervalSince1970
         let duration = Date(timeIntervalSince1970: endTime - startTime)
