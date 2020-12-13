@@ -130,7 +130,7 @@ class Rubiks {
         return arr
     }
     
-    // updateBorderCube 의 pushedArr 에 쓰일 정보
+    // updateBorderCube 의 resultArr 에 쓰일 정보
     // : 큐브 기호에 따라 돌아가는 면의 정보 & 시계 방향 정보 -> 병합 후 3칸 돌린 배열 리턴
     func mergeAndPush(_ cube1: CubeInfo, _ cube2: CubeInfo, _ cube3: CubeInfo, _ cube4: CubeInfo, clockwise: Bool) -> [String] {
         var mergedArr = readInfo(cube1) + readInfo(cube2) + readInfo(cube3) + readInfo(cube4)
