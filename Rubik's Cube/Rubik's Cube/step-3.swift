@@ -96,7 +96,7 @@ class Rubiks {
         return formateTime.string(from: duration)
     }
     
-    // 여러 입력을 처리하는 함수
+    // 여러 입력을 처리하는 메소드
     func multiNotation(_ input: String) -> [String] {
         let arr = Array(input)
         var result = [String]()
